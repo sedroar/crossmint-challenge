@@ -21,17 +21,33 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/load-goal', async (req: Request, res: Response) => {
-    const goal = await goalLoader.load();
-    res.send(goal);
+    try {
+        const goal = await goalLoader.load();
+        res.send(goal);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Failed to load goal');
+    }
 });
 
 app.post('/build-map', async (req: Request, res: Response) => {
-    await mapBuilder.build(req.body.positions);
-    res.send('Map built');
+    try {
+        await mapBuilder.build(req.body.positions);
+        res.send('Map built');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Failed to build map');
+    }
 });
+
 app.delete('/delete-map', async (req: Request, res: Response) => {
-    await mapCleaner.clean();
-    res.send('Map deleted');
+    try {
+        await mapCleaner.clean();
+        res.send('Map deleted');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Failed to delete map');
+    }
 });
 
 app.listen(port, () => {
