@@ -2,29 +2,49 @@ export enum Entity {
   Space = "SPACE",
   POLYanet = "POLYANET",
   SOLoon = "SOLOON",
-  BlueSoloon = "BLUE_SOLOON",
-  RedSoloon = "RED_SOLOON",
-  PurpleSoloon = "PURPLE_SOLOON",
-  WhiteSoloon = "WHITE_SOLOON",
   Cometh = "COMETH",
-  UpCometh = "UP_COMETH",
-  DownCometh = "DOWN_COMETH",
-  LeftCometh = "LEFT_COMETH",
-  RightCometh = "RIGHT_COMETH",
 }
 
-export function getEntityByValue(entityValue: string): Entity {
-  let index = Object.values<string>(Entity).indexOf(entityValue);
-  return Object.values(Entity)[index];
+export enum Color {
+  Blue = "BLUE",
+  Red = "RED",
+  Purple = "PURPLE",
+  White = "WHITE",
+}
+
+export enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
+}
+
+export class EntityAttribute {
+  color?: Color;
+  direction?: Direction;
+}
+
+export class EntityWithAttribute {
+  entity!: Entity;
+  entityAttribute?: EntityAttribute;
 }
 
 export default class Position {
-  row: number;
-  column: number;
-  entity: Entity;
-  constructor(row: number, column: number, entity: Entity) {
-    this.row = row;
-    this.column = column;
-    this.entity = entity;
-  }
+  row!: number;
+  column!: number;
+  entityWithAttribute!: EntityWithAttribute;
 }
+
+export const GoalPositionsEntities: Map<string, EntityWithAttribute> = new Map([
+    ["SPACE", { entity: Entity.Space }],
+    ["POLYANET", { entity: Entity.POLYanet }],
+    ["RED_SOLOON", { entity: Entity.SOLoon, entityAttribute: { color: Color.Red } }],
+    ["BLUE_SOLOON", { entity: Entity.SOLoon, entityAttribute: { color: Color.Blue } }],
+    ["PURPLE_SOLOON", { entity: Entity.SOLoon, entityAttribute: { color: Color.Purple } }],
+    ["WHITE_SOLOON", { entity: Entity.SOLoon, entityAttribute: { color: Color.White } }],
+    ["UP_COMETH", { entity: Entity.Cometh, entityAttribute: { direction: Direction.Up } }],
+    ["DOWN_COMETH", { entity: Entity.Cometh, entityAttribute: { direction: Direction.Down } }],
+    ["LEFT_COMETH", { entity: Entity.Cometh, entityAttribute: { direction: Direction.Left } }],
+    ["RIGHT_COMETH", { entity: Entity.Cometh, entityAttribute: { direction: Direction.Right } }],
+]);
+
