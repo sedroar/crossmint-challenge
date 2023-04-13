@@ -25,8 +25,9 @@ I needed to add some delays betwee DELETE and POST requests to ensure entities w
 1. npm install
 2. Have a .env file with the following variables
    - CROSSMINT-CHALLENGE-API-BASE-URL: https://challenge.crossmint.io/api/
+   - CROSSMINT-CANDIDATE-ID: the candidate id
    - PORT: 3001
-   Or add the variables to the environment variables
+   - Or add the variables to the environment variables
 3. npm run dev
 4. Use the Postman collection to test the API
    https://api.postman.com/collections/808008-21b82456-59b0-4810-86a9-a46620a36c7b?access_key=PMAT-01GXX5QG4DJJ432BZVFW94MS8K
