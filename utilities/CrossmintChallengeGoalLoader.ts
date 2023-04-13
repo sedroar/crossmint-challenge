@@ -2,26 +2,31 @@ import IGoalLoader from "./interfaces/IGoalLoader";
 import Goal from "../classes/Goal";
 import CrossmintChallengeApiGoal from "../classes/CrossmintChallengeApiGoal";
 import CrossmintChallengeApiRequest from "./CrossmintChallengeApiRequest";
-import Position, { Entity, GoalPositionsEntities } from "../classes/Position";
+import Position, { GoalPositionsEntities } from "../classes/Position";
 
 export default class CrossmintChallengeGoalLoader implements IGoalLoader {
   async load(): Promise<Goal> {
     try {
-      const crossmintChallengeApiRequest = new CrossmintChallengeApiRequest();
+      const crossmintChallengeApiRequest = new CrossmintChallengeApiRequest(process.env["CROSSMINT-CANDIDATE-ID"] || "");
       const crossmintChallengeApiGoal =
           await crossmintChallengeApiRequest.get<CrossmintChallengeApiGoal>(
-              `map/${process.env["CROSSMINT-CANDIDATE-ID"]}/goal`
+              `map/:candidateId/goal`
           );
       const positions = Array<Position>();
       let rowNumber = 0;
       let columnNumber = 0;
       for (const row of crossmintChallengeApiGoal.goal) {
         for (const entity of row) {
-          positions.push({
-            row: rowNumber,
-            column: columnNumber,
-            entityWithAttribute: GoalPositionsEntities.get(entity) || {entity: Entity.Space},
-          });
+          const entityWithAttribute = GoalPositionsEntities.get(entity);
+          if (entityWithAttribute) {
+            positions.push({
+              row: rowNumber,
+              column: columnNumber,
+              entityWithAttribute,
+            });
+          } else {
+            console.warn(`Unknown entity: ${entity}`)
+          }
           columnNumber++;
         }
         rowNumber++;

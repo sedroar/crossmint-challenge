@@ -14,8 +14,12 @@ export class ChallengeMapPosition {
     direction?: String;
 }
 
+export class MapContent {
+    content!: ChallengeMapPosition[][];
+}
+
 export default class CrossmintChallengeMap {
     candidateId!: String;
     phase!: Number;
-    content!: ChallengeMapPosition[][];
+    map!: MapContent;
 }

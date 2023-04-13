@@ -6,17 +6,17 @@ export enum Entity {
 }
 
 export enum Color {
-  Blue = "BLUE",
-  Red = "RED",
-  Purple = "PURPLE",
-  White = "WHITE",
+  Blue = "blue",
+  Red = "red",
+  Purple = "purple",
+  White = "white",
 }
 
 export enum Direction {
-  Up = "UP",
-  Down = "DOWN",
-  Left = "LEFT",
-  Right = "RIGHT",
+  Up = "up",
+  Down = "down",
+  Left = "left",
+  Right = "right",
 }
 
 export class EntityAttribute {

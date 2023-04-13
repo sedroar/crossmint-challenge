@@ -32,7 +32,8 @@ app.get('/load-goal', async (req: Request, res: Response) => {
 
 app.post('/build-map', async (req: Request, res: Response) => {
     try {
-        await mapBuilder.build(req.body.positions);
+        const goal = await goalLoader.load();
+        await mapBuilder.build(goal.positions);
         res.send('Map built');
     } catch (error) {
         console.error(error);

@@ -5,20 +5,27 @@ import CrossmintChallengeApiRequest from "./CrossmintChallengeApiRequest";
 export default class CrossmintChallengeMapBuilder implements IMapBuilder {
   async build(positions: Position[]): Promise<void> {
     try {
-      const crossmintChallengeApiRequest = new CrossmintChallengeApiRequest();
-      const promises = positions.map((position) => {
+      const crossmintChallengeApiRequest = new CrossmintChallengeApiRequest(
+        process.env["CROSSMINT-CANDIDATE-ID"] || ""
+      );
+      for (const position of positions) {
         if (position.entityWithAttribute.entity !== Entity.Space) {
-          crossmintChallengeApiRequest.post<void>(
-              `${position.entityWithAttribute.entity}s`,
-              {},
-              position.entityWithAttribute.entityAttribute
+          await crossmintChallengeApiRequest.post<void>(
+            `${position.entityWithAttribute.entity}s`,
+            {},
+            {
+              row: position.row,
+              column: position.column,
+              ...position.entityWithAttribute.entityAttribute,
+            }
           );
+          // added some delay to let the entity be created
+          await new Promise((resolve) => setTimeout(resolve, 1000));
         }
-      });
-      await Promise.all(promises);
+      }
     } catch (error) {
-        console.error(error);
-        throw new Error("Failed to build map");
+      console.error(error);
+      throw new Error("Failed to build map");
     }
   }
 }

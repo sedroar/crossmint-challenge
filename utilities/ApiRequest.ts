@@ -26,7 +26,8 @@ export default abstract class ApiRequest {
   }
 
   post<TResponse>(url: string, config: RequestInit = {}, data = {}): Promise<TResponse> {
-    console.info(`Posting to ${this.baseUrl + url}...`);
+    console.info(`POST ${this.baseUrl + url}...`);
+    console.info(`body: ${JSON.stringify(data)}`);
     return fetch(this.baseUrl + url, {
       ...config,
       method: "POST",
@@ -40,10 +41,14 @@ export default abstract class ApiRequest {
   }
 
   delete(url: string, config: RequestInit = {}, data = {}): Promise<void> {
-    console.info(`Deleting ${this.baseUrl + url}...`);
+    console.info(`DELETE ${this.baseUrl + url}...`);
+    console.info(`body: ${JSON.stringify(data)}`);
     return fetch(this.baseUrl + url, {
       ...config,
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     }).then(() => console.info("Deleted"));
   }
